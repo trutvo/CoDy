@@ -60,7 +60,7 @@ CoDy::LogBook.new do
           executable commands. 
         '''
 
-        position 'e4a932ec029895826403b901350fbda6921a8b55'
+        position '8da59040e0d9bb360400e5d0260ba290a54e676c'
 
         entry '''
           The class LogBookRunner is responsible for executing the logbook
@@ -69,7 +69,7 @@ CoDy::LogBook.new do
           Use the key space to go forward and the key b go backward. 
         
           Currently the commands will not be executed. The runner can
-          only wort in the dryrun mode.
+          only wort in the dryrun
         '''
     end
 
