@@ -54,6 +54,7 @@ module CoDy
 
         def repo(path)
             @repository_path = path
+            Git.open(@repository_path)
         end
 
         def check_for_repo

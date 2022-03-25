@@ -1,6 +1,6 @@
 CoDy::LogBook.new do
 
-    repo '.'
+    r = repo '.'
 
     log do
 
@@ -91,7 +91,7 @@ CoDy::LogBook.new do
     end
 
     final do
-       position 'main'
+       position r.current_branch
     end
 
 end
