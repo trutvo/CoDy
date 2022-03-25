@@ -7,13 +7,13 @@ CoDy::LogBook.new do
         position 'b56ab8e15a865918acfaccad0b486544a78b37a2'
 
         entry '''
-          I want to have a tool to write a log book for a git repository.
+          I want to have a tool to write a logbook for a git repository.
 
-          I want to show different phases of the development process by moving 
-          between different commits.
+          I want to show different phases of the development process by 
+          moving between different commits.
           
-          The tool can run in a terminal. With two keys I should be able to go 
-          forward and backward.
+          The tool can simple run in a terminal. I should be able to go 
+          forward and backward and quit by using keys.
 
           I should be able to add text entries to add explanations.
 

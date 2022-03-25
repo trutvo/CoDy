@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'cody'
+
+app = CoDy::App.new
+app.run

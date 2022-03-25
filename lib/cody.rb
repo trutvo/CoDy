@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'git'  # install with: sudo gem install git
+require 'git'
 require 'optionparser'
 require 'io/console'
 
 module CoDy
+
+    VERSION = '0.0.1'
     
     class Command
         def execute
@@ -44,7 +46,7 @@ module CoDy
     class LogBook
         attr_reader :log_commands, :finalize_commands
 
-        def initialize(config = {}, &block)
+        def initialize(&block)
             @repository_path = nil
             @log_commands = []
             @finalize_commands = []
@@ -136,7 +138,7 @@ module CoDy
                 cmd = @logbook.log_commands[step]
                 clear_screen
                 mode = @dryrun ? "DRYRUN" : "EXECUTE"
-                space = ' ' * 60
+                space = ' ' * 40
                 stepText = "| #{space} Step #{step + 1}/#{commands_count} #{space} |"
                 puts "\n\n\n"
                 puts '-' * stepText.size
@@ -163,35 +165,50 @@ module CoDy
 
     end
 
+    class App
+
+        def run() 
+            banner = "Usage: cody [options] inputfile"
+
+            dryrun = false
+
+            parser = OptionParser.new do |opts|
+                opts.banner = banner
+                opts.on('-v', '--version', 'show version') do
+                puts VERSION  
+                exit
+                end
+                opts.on("-h", "--help", "print help") do
+                puts opts
+                exit
+                end
+                opts.on("-n", "--dry-run", "do a dry run") do
+                    dryrun = true
+                end
+            end.parse!
+
+            input_file = ARGV.pop
+
+            abort("No inputfile given!\n#{banner}") unless input_file
+
+            logbook = eval File.read(input_file)
+
+            abort("ERROR: logbook is empty!") unless logbook
+
+            logbookRunner = LogBookRunner.new logbook, dryrun
+            begin
+                logbookRunner.execute
+            ensure
+                logbookRunner.finalize
+            end
+
+        end
+
+    end
+
 end
 
-BANNER = "Usage: woc [options] inputfile"
-
-dryrun = false
-
-parser = OptionParser.new do |opts|
-    opts.banner = BANNER
-    opts.on('-v', '--version', 'show version') do
-      puts Woc::VERSION  
-      exit
-    end
-    opts.on("-h", "--help", "print help") do
-      puts opts
-      exit
-    end
-    opts.on("-n", "--dry-run", "do a dry run") do
-        dryrun = true
-    end
-  end.parse!
-
-input_file = ARGV.pop
-
-abort("No inputfile given!\n#{BANNER}") unless input_file
-
-logbook = eval File.read(input_file)
-logbookRunner = CoDy::LogBookRunner.new logbook, dryrun
-begin
-    logbookRunner.execute
-ensure
-    logbookRunner.finalize
+if __FILE__ == $PROGRAM_NAME
+    app = CoDy::App.new
+    app.run
 end
