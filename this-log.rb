@@ -88,6 +88,12 @@ CoDy::LogBook.new do
           Here you can switch back to the main branch.
         '''
 
+        position 'd7213fa7800e30269bb560ccce83d4b640dc47a7'
+
+        entry '''
+          This is a ruby project setup.
+        '''
+
     end
 
     final do
