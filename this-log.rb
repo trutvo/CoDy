@@ -52,6 +52,13 @@ CoDy::LogBook.new do
         entry '''
           lets save all log entries in a list
         '''
+
+        position 'd9cede8bbdf2a7b42aa15f071c08b876901af9ce'
+
+        entry '''
+          Now comes the moment when we translate our domain language in 
+          executable commands. 
+        '''
     end
 
 end
