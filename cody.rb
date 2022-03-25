@@ -5,10 +5,12 @@ module CoDy
     class LogBook
         
         def initialize(config = {}, &block)
+            @repository_path = nil
             self.instance_eval(&block)
         end
 
         def repo(path)
+            @repository_path = path
             puts "repo: #{path}"
         end
 
