@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'git'  # install with: sudo gem install git
+require 'optionparser'
+require 'io/console'
+
 module CoDy
     
     class Command
@@ -69,9 +73,69 @@ module CoDy
 
     end
 
+    class LogBookRunner
+        def initialize(logbook, dryrun =true)
+            @logbook = logbook
+            @dryrun = dryrun
+        end
+
+        def clear_screen
+            Gem.win_platform? ? (system "cls") : (system "clear")
+        end
+
+        def get_next_step(step, key_pressed)
+            case key_pressed
+            when "q"
+                -1
+            when "p"
+                if step > 0
+                    step - 1
+                else
+                    step
+                end
+            when " "
+                step + 1
+            else
+                step
+            end
+        end
+
+        def execute_command(cmd)
+            if @dryrun
+                puts "#{cmd}"
+            else
+                cmd.execute
+            end
+        end
+
+        def execute()
+            step = 0
+            commands_count = @logbook.log_commands.size
+            while step < commands_count && step >= 0
+                cmd = @logbook.log_commands[step]
+                clear_screen
+                space = ' ' * 60
+                stepText = "# #{space} Step #{step}/#{commands_count} #{space} #"
+                puts "\n\n\n"
+                puts '#' * stepText.size
+                puts stepText
+                puts '#' * stepText.size
+                puts "\n\n\n"
+                execute_command(cmd)
+                key_pressed = STDIN.getch
+                step = get_next_step(step, key_pressed)
+            end
+        end
+
+    end
+
 end
 
 input_file = ARGV.pop
 
+abort("No inputfile given!\n#{BANNER}") unless input_file
+puts "press space for the next step, 'p' for the previous step and 'q' to quit ..."           
+
 logbook = eval File.read(input_file)
-puts logbook.log_commands
+logbookRunner = CoDy::LogBookRunner.new logbook
+logbookRunner.execute
