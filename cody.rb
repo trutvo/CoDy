@@ -42,11 +42,13 @@ module CoDy
     end
 
     class LogBook
-        attr_reader :log_commands
+        attr_reader :log_commands, :finalize_commands
 
         def initialize(config = {}, &block)
             @repository_path = nil
             @log_commands = []
+            @finalize_commands = []
+            @chapter = nil
             self.instance_eval(&block)
         end
 
@@ -60,15 +62,33 @@ module CoDy
 
         def log(&block)
             check_for_repo
+            @chapter = :log
             self.instance_eval(&block)
         end
 
+        def final(&block)
+            check_for_repo
+            @chapter = :final
+            self.instance_eval(&block)
+        end
+
+        def <<(command)
+            case @chapter
+            when :log
+                @log_commands << command
+            when :final
+                @finalize_commands << command
+            else
+                abort("ERROR: unknown chapter #{@chapter}")
+            end
+        end
+
         def position(mark)
-            @log_commands << Checkout.new(@repository_path, mark)
+            self << Checkout.new(@repository_path, mark)
         end
 
         def entry(text)
-            @log_commands << Print.new(text)
+            self << Print.new(text)
         end
 
     end
@@ -131,6 +151,15 @@ module CoDy
             end
         end
 
+        def finalize()
+            clear_screen
+            puts "quit: finalize"
+            puts "\n\n\n"
+            @logbook.finalize_commands.each do |cmd|
+                execute_command(cmd)
+            end
+        end
+
     end
 
 end
@@ -160,4 +189,8 @@ abort("No inputfile given!\n#{BANNER}") unless input_file
 
 logbook = eval File.read(input_file)
 logbookRunner = CoDy::LogBookRunner.new logbook, dryrun
-logbookRunner.execute
+begin
+    logbookRunner.execute
+ensure
+    logbookRunner.finalize
+end
