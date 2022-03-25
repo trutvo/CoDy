@@ -34,7 +34,11 @@ CoDy::LogBook.new do
           entry is for explanations.
         '''
 
-        
+        position 'a4c15e04ec24fb0bd852bb17642062eeb92af60a'
+
+        entry '''
+           If the repo method is called, we store the repository url.
+        '''
     end
 
 end
