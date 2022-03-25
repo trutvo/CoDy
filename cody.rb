@@ -3,15 +3,16 @@
 module CoDy
     
     class LogBook
-        
+        attr_reader :log_commands
+
         def initialize(config = {}, &block)
             @repository_path = nil
+            @log_commands = []
             self.instance_eval(&block)
         end
 
         def repo(path)
             @repository_path = path
-            puts "repo: #{path}"
         end
 
         def check_for_repo
@@ -24,11 +25,11 @@ module CoDy
         end
 
         def position(mark)
-            puts "position: #{mark}"
+            @log_commands << mark
         end
 
         def entry(text)
-            puts "entry: #{text}"
+            @log_commands << "entry"
         end
 
     end
@@ -38,3 +39,4 @@ end
 input_file = ARGV.pop
 
 logbook = eval File.read(input_file)
+puts logbook.log_commands.join(', ')
