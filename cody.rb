@@ -115,13 +115,16 @@ module CoDy
                 cmd = @logbook.log_commands[step]
                 clear_screen
                 space = ' ' * 60
-                stepText = "# #{space} Step #{step + 1}/#{commands_count} #{space} #"
+                stepText = "| #{space} Step #{step + 1}/#{commands_count} #{space} |"
                 puts "\n\n\n"
-                puts '#' * stepText.size
+                puts '-' * stepText.size
                 puts stepText
-                puts '#' * stepText.size
+                puts '-' * stepText.size
                 puts "\n\n\n"
                 execute_command(cmd)
+                puts "\n\n\n"
+                puts '-' * stepText.size
+                puts "press space for the next step, 'p' for the previous step and 'q' to quit ..."           
                 key_pressed = STDIN.getch
                 step = get_next_step(step, key_pressed)
             end
@@ -134,7 +137,6 @@ end
 input_file = ARGV.pop
 
 abort("No inputfile given!\n#{BANNER}") unless input_file
-puts "press space for the next step, 'p' for the previous step and 'q' to quit ..."           
 
 logbook = eval File.read(input_file)
 logbookRunner = CoDy::LogBookRunner.new logbook
