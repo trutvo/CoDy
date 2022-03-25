@@ -71,6 +71,13 @@ CoDy::LogBook.new do
           Currently the commands will not be executed. The runner can
           only wort in the dryrun
         '''
+
+        position '2910428e62f2abd0b737f4fffe8e09e02af7ce66'
+
+        entry '''
+          Now we ahve a cli interface and can execute the commans 
+          the first time fo read!
+        '''
     end
 
 end
