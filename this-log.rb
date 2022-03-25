@@ -78,6 +78,20 @@ CoDy::LogBook.new do
           Now we ahve a cli interface and can execute the commans 
           the first time fo read!
         '''
+
+        position '2f9120443d54271197466a55fdad7dd1445c427e'
+
+        entry '''
+          The chapter final will be executed if the program ends for some
+          reason. 
+
+          Here you can switch back to the main branch.
+        '''
+
+    end
+
+    final do
+       position 'main'
     end
 
 end
