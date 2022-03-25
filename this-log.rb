@@ -37,7 +37,14 @@ CoDy::LogBook.new do
         position 'a4c15e04ec24fb0bd852bb17642062eeb92af60a'
 
         entry '''
-           If the repo method is called, we store the repository url.
+          If the repo method is called, we store the repository url.
+        '''
+
+        position '57c56006c57b790c84d3d80ada1fdbe6949f0c02'
+
+        entry '''
+          With the method check_for_repo we ensure that before entering the log
+          section the repository url is alredy given.
         '''
     end
 
