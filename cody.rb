@@ -14,7 +14,12 @@ module CoDy
             puts "repo: #{path}"
         end
 
+        def check_for_repo
+            abort("ERROR: You have to define the repository path with the 'repo(...) command first!'}") unless @repository_path
+        end
+
         def log(&block)
+            check_for_repo
             self.instance_eval(&block)
         end
 
