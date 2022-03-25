@@ -114,6 +114,7 @@ module CoDy
             while step < commands_count && step >= 0
                 cmd = @logbook.log_commands[step]
                 clear_screen
+                mode = @dryrun ? "DRYRUN" : "EXECUTE"
                 space = ' ' * 60
                 stepText = "| #{space} Step #{step + 1}/#{commands_count} #{space} |"
                 puts "\n\n\n"
@@ -124,7 +125,7 @@ module CoDy
                 execute_command(cmd)
                 puts "\n\n\n"
                 puts '-' * stepText.size
-                puts "press space for the next step, 'p' for the previous step and 'q' to quit ..."           
+                puts "[#{mode}] press space for the next step, 'p' for the previous step and 'q' to quit ..."           
                 key_pressed = STDIN.getch
                 step = get_next_step(step, key_pressed)
             end
@@ -134,10 +135,29 @@ module CoDy
 
 end
 
+BANNER = "Usage: woc [options] inputfile"
+
+dryrun = false
+
+parser = OptionParser.new do |opts|
+    opts.banner = BANNER
+    opts.on('-v', '--version', 'show version') do
+      puts Woc::VERSION  
+      exit
+    end
+    opts.on("-h", "--help", "print help") do
+      puts opts
+      exit
+    end
+    opts.on("-n", "--dry-run", "do a dry run") do
+        dryrun = true
+    end
+  end.parse!
+
 input_file = ARGV.pop
 
 abort("No inputfile given!\n#{BANNER}") unless input_file
 
 logbook = eval File.read(input_file)
-logbookRunner = CoDy::LogBookRunner.new logbook
+logbookRunner = CoDy::LogBookRunner.new logbook, dryrun
 logbookRunner.execute
