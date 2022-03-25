@@ -59,6 +59,18 @@ CoDy::LogBook.new do
           Now comes the moment when we translate our domain language in 
           executable commands. 
         '''
+
+        position 'e4a932ec029895826403b901350fbda6921a8b55'
+
+        entry '''
+          The class LogBookRunner is responsible for executing the logbook
+          commands.
+
+          Use the key space to go forward and the key b go backward. 
+        
+          Currently the commands will not be executed. The runner can
+          only wort in the dryrun mode.
+        '''
     end
 
 end

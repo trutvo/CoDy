@@ -115,7 +115,7 @@ module CoDy
                 cmd = @logbook.log_commands[step]
                 clear_screen
                 space = ' ' * 60
-                stepText = "# #{space} Step #{step}/#{commands_count} #{space} #"
+                stepText = "# #{space} Step #{step + 1}/#{commands_count} #{space} #"
                 puts "\n\n\n"
                 puts '#' * stepText.size
                 puts stepText
