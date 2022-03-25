@@ -46,6 +46,12 @@ CoDy::LogBook.new do
           With the method check_for_repo we ensure that before entering the log
           section the repository url is alredy given.
         '''
+
+        position 'f82e650461bf4df530d498c9852dc2d558105426'
+
+        entry '''
+          lets save all log entries in a list
+        '''
     end
 
 end
